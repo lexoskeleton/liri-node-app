@@ -15,10 +15,9 @@ var getArtistName = function(artist) {
 }
 
 var getSongName = function(songName) {
-    var songName = process.argv[3];
     //user validation to prevent user from passing in nonsense 
     if (songName === undefined) {
-        songName = "Torn Apart";
+        songName = "Digging Up the Corpses";
     }
     console.log(songName);
    
@@ -75,7 +74,6 @@ var getMyTweets = function () {
 
 //OMDB
 var getMeMovie = function(movieName) {
-    var movieName = process.argv[3];
     if (movieName === undefined) {
       movieName = "Mr Nobody";
     }
@@ -104,10 +102,10 @@ var getMeMovie = function(movieName) {
 
   var doWhatItSays = function(){
       fs.readFile("random.txt", "utf8", function(err, data){
-          console.log(data);
           if (err) {
               console.log(error);
           }
+          //split the txt file data into 
           var dataArr = data.split(",");
           if (dataArr.length === 2) {
               pick(dataArr[0], dataArr[1]);
@@ -126,21 +124,21 @@ var getMeMovie = function(movieName) {
             getMyTweets();
             break;
             case "spotify-this-song":
-            getSongName();
+            getSongName(functionData);
             break;
             case "movie-this":
-            getMeMovie();
+            getMeMovie(functionData);
             break;
             case "do-what-it-says":
-            doWhatItSays();
+            doWhatItSays(functionData);
             break;
             default: 
-            console.log("LIRI, I don't know!");
+            console.log("Does not compute!");
         }
         
 
     };
-    //this function passes in the cases/functions (argOne) and command line input (argTwo)
+    //this function passes in the cases/functions (argOne) and arbitrary command line input (argTwo)
     var runThisTown = function(argOne, argTwo) {
         pick(argOne, argTwo);
     };
