@@ -7,7 +7,7 @@ var request = require("request");
 var fs = require("fs");
 
 
-//Spotify functionalities
+//Spotify functionality
 var spotify = new Spotify(keys.spotify);
 
 var getArtistName = function(artist) {
@@ -74,6 +74,7 @@ var getMyTweets = function () {
 
 //OMDB
 var getMeMovie = function(movieName) {
+    //user validation to prevent user from passing in nonsense
     if (movieName === undefined) {
       movieName = "Mr Nobody";
     }
@@ -105,19 +106,18 @@ var getMeMovie = function(movieName) {
           if (err) {
               console.log(error);
           }
-          //split the txt file data into 
+          //split the txt file data into readable chunks 
           var dataArr = data.split(",");
           if (dataArr.length === 2) {
               pick(dataArr[0], dataArr[1]);
           }
           else if (dataArr.length === 1) {
               pick(dataArr[0]);
-              console.log(dataArr[0]);
             
           }
       }
     )};
-
+    //switch statement to loop through the functions 
     var pick = function(caseData, functionData){
         switch (caseData) {
             case "myTweets":
