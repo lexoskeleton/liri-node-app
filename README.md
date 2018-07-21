@@ -23,4 +23,4 @@ Dependencies from each node package installed.
 
 ## liri.js
 
-This is where the magic happens. Within this file is the code necessary to pull data from the Twitter, Spotify, & OMDB API's, as well as to read and utilize text from the **random.txt** file. 
+This is where the magic happens. Within this file is the code necessary to pull data from the Twitter, Spotify, & OMDB API's, as well as to read and utilize text from the **random.txt** file. In order to get started with this application, you must open **liri.js** in your bash/terminal and pass in one of the following parameters: *spotify-this-song*, *movie-this*, *myTweets*, *do-what-it-says*. If you use the first two parameters, you may also pass in a second argument, which can be a song name or a film name (respectively). The *myTweets* parameter pulls the most recent tweets from my super important Twitter account, and *do-what-it-says* pulls information from a .txt file and interacts with said information. Pretty cool, huh?
