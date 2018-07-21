@@ -1,13 +1,13 @@
 require("dotenv").config();
-//these variables reference the specific npm package without recreating the entire thing
+//variables for specific npm packages + keys folder
 var Spotify = require("node-spotify-api");
 var Twitter = require("twitter");
-//link to keys folder
 var keys = require("./keys.js");
 var request = require("request");
 var fs = require("fs");
 
-//Spotify
+
+//Spotify functionalities
 var spotify = new Spotify(keys.spotify);
 
 var getArtistName = function(artist) {
@@ -15,35 +15,42 @@ var getArtistName = function(artist) {
 }
 
 var getSongName = function(songName) {
+    var songName = process.argv[3];
     //user validation to prevent user from passing in nonsense 
     if (songName === undefined) {
         songName = "Torn Apart";
     }
+    console.log(songName);
+   
     spotify.search( {
 
        type: "track", 
        query: songName,
+
         },
+
         function(err, data){
           if (err) {
               console.log("Error occured" + err);
               return;
           }  
+
         var songs = data.tracks.items;
 
         for (var i = 0; i < songs.length; i++) {
             console.log(i);
-            console.log("Artists" + songs[i].artists.map(getArtistName));
-            console.log("Song Name" + songs[i].name);
-            console.log("Preview Song" + songs[i].preview_url);
-            console.log("Album" + songs[i].album.name);
+            console.log("Artists: " + songs[i].artists.map(getArtistName));
+            console.log("Song Name: " + songs[i].name);
+            console.log("Preview Song: " + songs[i].preview_url);
+            console.log("Album: " + songs[i].album.name);
             console.log("-----------------------------------");
         }
 
-        }
+    }
         
     )
 };
+
 
 //Twitter
 var getMyTweets = function () {
@@ -59,6 +66,7 @@ var getMyTweets = function () {
                 console.log(tweets[i].create_at);
                 console.log("");
                 console.log(tweets[i].text);
+                console.log("-----------------------------------");
             }
         }
     });
@@ -67,6 +75,7 @@ var getMyTweets = function () {
 
 //OMDB
 var getMeMovie = function(movieName) {
+    var movieName = process.argv[3];
     if (movieName === undefined) {
       movieName = "Mr Nobody";
     }
@@ -86,6 +95,7 @@ var getMeMovie = function(movieName) {
         console.log("Plot: " + jsonData.Plot);
         console.log("Actors: " + jsonData.Actors);
         console.log("Rotton Tomatoes Rating: " + jsonData.Ratings[1].Value);
+        console.log("-----------------------------------");
       }
     });
   };
@@ -95,12 +105,16 @@ var getMeMovie = function(movieName) {
   var doWhatItSays = function(){
       fs.readFile("random.txt", "utf8", function(err, data){
           console.log(data);
+          if (err) {
+              console.log(error);
+          }
           var dataArr = data.split(",");
           if (dataArr.length === 2) {
               pick(dataArr[0], dataArr[1]);
           }
           else if (dataArr.length === 1) {
               pick(dataArr[0]);
+              console.log(dataArr[0]);
             
           }
       }
@@ -111,13 +125,13 @@ var getMeMovie = function(movieName) {
             case "myTweets":
             getMyTweets();
             break;
-            case "getSongName":
+            case "spotify-this-song":
             getSongName();
             break;
-            case "getMeMovie":
+            case "movie-this":
             getMeMovie();
             break;
-            case "doWhatItSays":
+            case "do-what-it-says":
             doWhatItSays();
             break;
             default: 
@@ -126,7 +140,7 @@ var getMeMovie = function(movieName) {
         
 
     };
-
+    //this function passes in the cases/functions (argOne) and command line input (argTwo)
     var runThisTown = function(argOne, argTwo) {
         pick(argOne, argTwo);
     };
